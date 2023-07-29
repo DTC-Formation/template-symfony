@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}How to scam!{% endblock %}
+
+{% block body %}
+    <h1>Hello {{ user }}</h1>
+    <a href="{{ path('download_book') }}">
+        Download book
+    </a>
+    <a href="{{ path('app_user_new') }}">
+        Register now
+    </a>
+    <a href="">
+        Get endpoint URL
+    </a>
+{% endblock %}

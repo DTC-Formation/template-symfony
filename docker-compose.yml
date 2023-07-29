@@ -2,20 +2,32 @@ version: '3'
 
 services:
 ###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-15}-alpine
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
+  apps:
+    container_name: dtc-symfony
+    build:
+      context: docker/app
+    ports:
+      - "8081:80"
     volumes:
-      - database_data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+      - ./:/var/www/dtc-formation:rw+
+      - ./docker/apache_conf:/etc/apache2/sites-enabled
 
-volumes:
-###> doctrine/doctrine-bundle ###
-  database_data:
-###< doctrine/doctrine-bundle ###
+  mailer:
+    container_name: mailer-dtc
+    image: schickling/mailcatcher
+    ports:
+      - "8082:1025"
+      - "8083:1080"
+
+  database:
+    image: mysql:latest
+    container_name: mysql-dtc
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: julkwel
+      MYSQL_DATABASE: dtc-symfony
+      MYSQL_USER: whole
+      MYSQL_PASSWORD: wh0leL1f3
+    volumes:
+      - "$PWD/data:/var/lib/mysql:rw"
