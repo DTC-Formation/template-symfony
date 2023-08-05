@@ -32,7 +32,7 @@ class JsonResponseHelper
      *
      * @return Serializer
      */
-    public function configureSerializer(array $groups = ['listing']): Serializer
+    public function configureSerializer(array $groups): Serializer
     {
         $encoder = new JsonEncoder();
         $defaultContext = [
