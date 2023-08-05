@@ -18,15 +18,15 @@ class User
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['listing', 'details'])]
+    #[Groups(['listing', 'details', 'creating'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['listing', 'details'])]
+    #[Groups(['listing', 'details', 'creating'])]
     private ?string $prenom = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Experience::class)]
-    #[Groups('listing')]
+    #[Groups(['listing', 'creating'])]
     private Collection $experiences;
 
     public function __toString(): string
